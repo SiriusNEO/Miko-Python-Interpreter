@@ -264,8 +264,8 @@ public:
             ++miko.depth;
             auto argumentName = visitParameters(func.first).as<std::vector<std::string>>();
             if (!argumentName.empty()) {
-                if (argumentName.size() != argumentData.size())
-                    throw std::invalid_argument("Error, invalid numbers of arguments");
+                //if (argumentName.size() != argumentData.size())
+                    //throw std::invalid_argument("Error, invalid numbers of arguments");
                 for (int i = 0; i < argumentData.size(); ++i) {
                     if (i < argumentData.size() - miko.kwTable.size()) *miko.getVariable(argumentName[i]) = argumentData[i];
                     else *miko.getVariable(miko.kwTable[i-(argumentData.size()-miko.kwTable.size())]) = argumentData[i];
