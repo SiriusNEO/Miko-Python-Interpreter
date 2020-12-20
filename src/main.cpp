@@ -8,9 +8,7 @@ using namespace antlr4;
 //       if you really need to regenerate,please ask TA for help.
 int main(int argc, const char* argv[]){
     //todo:please don't modify the code below the construction of ifs if you want to use visitor mode
-    std::fstream ifs;
-    ifs.open(argv[1]);
-    ANTLRInputStream input(ifs);
+    ANTLRInputStream input(std::cin);
     Python3Lexer lexer(&input);
     CommonTokenStream tokens(&lexer);
     tokens.fill();
