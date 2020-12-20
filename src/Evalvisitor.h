@@ -189,7 +189,6 @@ public:
         auto arithexprArray = ctx->arith_expr();
         if (arithexprArray.size() == 1) return visitArith_expr(ctx->arith_expr()[0]).as<Base>();
         auto comp_op_list = ctx->comp_op();
-        bool ret = true;
         Base obj1, obj2 = visitArith_expr(arithexprArray[0]);
         for (int i = 1; i < arithexprArray.size(); ++i) {
             bool tmp = true;
@@ -290,19 +289,19 @@ public:
             return Base(_none);
         }
         else if (functionName.nameData == "int") {
-            if (argumentData.size() > 1) throw std::invalid_argument("Error, function expected at most 1 argument");
+            //if (argumentData.size() > 1) throw std::invalid_argument("Error, function expected at most 1 argument");
             return argumentData[0].castToInt();
         }
         else if (functionName.nameData == "float") {
-            if (argumentData.size() > 1) throw std::invalid_argument("Error, function expected at most 1 argument");
+            //if (argumentData.size() > 1) throw std::invalid_argument("Error, function expected at most 1 argument");
             return argumentData[0].castToFloat();
         }
         else if (functionName.nameData == "str") {
-            if (argumentData.size() > 1) throw std::invalid_argument("Error, function expected at most 1 argument");
+            //if (argumentData.size() > 1) throw std::invalid_argument("Error, function expected at most 1 argument");
             return argumentData[0].castToStr();
         }
         else if (functionName.nameData == "bool") {
-            if (argumentData.size() > 1) throw std::invalid_argument("Error, function expected at most 1 argument");
+            //if (argumentData.size() > 1) throw std::invalid_argument("Error, function expected at most 1 argument");
             return argumentData[0].castToBool();
         }
     }

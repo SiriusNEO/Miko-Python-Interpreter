@@ -83,22 +83,18 @@ Bigint operator - (const Bigint& obj1, const Bigint& obj2) {
     }
 }
 
-Bigint operator * (const Bigint& obj1, int obj2) {
-    int mulDigit = 0;
-    Bigint ret = obj1;
-    for (int i = 0; i < ret.size(); ++i) {
-        ret.digit[i] = ret.digit[i]*obj2 + mulDigit;
-        (ret.digit[i] >= 10) ? mulDigit = ret.digit[i] / 10, ret.digit[i] %= 10 : mulDigit = 0;
-    }
-    if (mulDigit) ret.digit.push_back(mulDigit);
-    ret.regularize();
-    return ret;
-}
-
 Bigint operator * (const Bigint& obj1, const Bigint& obj2) {
     Bigint ret;
-    for (int i = obj2.size() - 1; i >= 0; --i) ret = ret * 10 + obj1 * obj2.digit[i];
+    ret.digit.resize(obj1.size() + obj2.size() + 11);
+    for (int i = 0; i < obj1.size(); ++i)
+        for (int j = 0; j < obj2.size(); ++j)
+                ret.digit[i+j] += obj1.digit[i] * obj2.digit[j];
+    for (int i = 0; i < ret.size()-1; ++i) {
+        ret.digit[i+1] += ret.digit[i]/10;
+        ret.digit[i] %= 10;
+    }
     ret.neg = obj1.neg ^ obj2.neg;
+    ret.regularize();
     return ret;
 }
 

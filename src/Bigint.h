@@ -64,7 +64,6 @@ class Bigint {
 
         friend Bigint operator + (const Bigint& obj1, const Bigint& obj2);
         friend Bigint operator - (const Bigint& obj1, const Bigint& obj2);
-        friend Bigint operator * (const Bigint& obj1, int obj2);
         friend Bigint operator * (const Bigint& obj1, const Bigint& obj2);
         friend Bigint operator / (const Bigint& obj1, const Bigint& obj2);
         friend Bigint operator % (const Bigint& obj1, const Bigint& obj2);
