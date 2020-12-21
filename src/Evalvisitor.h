@@ -20,25 +20,30 @@ public:
 
     virtual antlrcpp::Any visitFuncdef(Python3Parser::FuncdefContext *ctx) override {
         miko.functionTable[ctx->NAME()->getText()] = std::make_pair(ctx->parameters(), ctx->suite());
+        if (ctx->parameters()->typedargslist()) {
+            auto testArray = ctx->parameters()->typedargslist()->test();
+            for (auto i : testArray)
+                miko.defaultArguments[ctx->parameters()].push_back(visitTest(i));
+            }
         return 0;
     }
 
     virtual antlrcpp::Any visitParameters(Python3Parser::ParametersContext *ctx) override {
         std::vector<std::string> ret;
-        if (ctx->typedargslist()) return visitTypedargslist(ctx->typedargslist()).as<std::vector<std::string>>();
+        if (ctx->typedargslist()) {
+            auto tfpArray = ctx->typedargslist()->tfpdef();
+            auto defaultArray = miko.defaultArguments[ctx];
+            for (auto i = 0; i < tfpArray.size(); ++i) {
+                if (i < tfpArray.size() - defaultArray.size()) miko.newVariable(tfpArray[i]->getText(), Base(_none));
+                else miko.newVariable(tfpArray[i]->getText(), defaultArray[i - (tfpArray.size() - defaultArray.size())]);
+                ret.push_back(tfpArray[i]->getText());
+            }
+        }
         return ret;
     }
 
     virtual antlrcpp::Any visitTypedargslist(Python3Parser::TypedargslistContext *ctx) override {
-        auto tfp_list = ctx->tfpdef();
-        auto testArray = ctx->test();
-        std::vector<std::string> ret;
-        for (auto i = 0; i < tfp_list.size(); ++i) {
-            if (i < tfp_list.size() - testArray.size()) miko.newVariable(tfp_list[i]->getText(), Base(_none));
-            else miko.newVariable(tfp_list[i]->getText(), visitTest(testArray[i - (tfp_list.size() - testArray.size())]));
-            ret.push_back(tfp_list[i]->getText());
-        }
-        return ret;
+        return visitChildren(ctx);
     }
 
     virtual antlrcpp::Any visitTfpdef(Python3Parser::TfpdefContext *ctx) override {
@@ -64,7 +69,7 @@ public:
             std::string tmpOp = ctx->augassign()->getText();
             auto testlistArray = ctx->testlist();
             auto left_testArray = visitTestlist(testlistArray[0]).as<std::vector<Base>>(),
-            right_testArray = visitTestlist(testlistArray[1]).as<std::vector<Base>>();
+                    right_testArray = visitTestlist(testlistArray[1]).as<std::vector<Base>>();
             if (left_testArray.size() != 1 || right_testArray.size() != 1) throw std::invalid_argument("Error, illegal expression for augmented assignment");
             if (!left_testArray[0].isLeftValue) throw std::invalid_argument("Error, not a left-value");
             Base* ptr = miko.getVariable(left_testArray[0].nameData);
@@ -84,7 +89,7 @@ public:
             }
             for (int i = testlistArray.size()-1; i > 0; --i) {
                 auto left_testArray = visitTestlist(testlistArray[i-1]).as<std::vector<Base>>(),
-                right_testArray = visitTestlist(testlistArray[i]).as<std::vector<Base>>();
+                        right_testArray = visitTestlist(testlistArray[i]).as<std::vector<Base>>();
                 if (left_testArray.size() != right_testArray.size()) throw std::invalid_argument("Error, numbers of objects on two sides are different");
                 for (int j = 0; j < left_testArray.size(); ++j) {
                     if (!left_testArray[j].isLeftValue) throw std::invalid_argument("Error, not a left-value");
@@ -264,7 +269,7 @@ public:
             auto argumentName = visitParameters(func.first).as<std::vector<std::string>>();
             if (!argumentName.empty()) {
                 //if (argumentName.size() != argumentData.size())
-                    //throw std::invalid_argument("Error, invalid numbers of arguments");
+                //throw std::invalid_argument("Error, invalid numbers of arguments");
                 for (int i = 0; i < argumentData.size(); ++i) {
                     if (i < argumentData.size() - miko.kwTable.size()) *miko.getVariable(argumentName[i]) = argumentData[i];
                     else *miko.getVariable(miko.kwTable[i-(argumentData.size()-miko.kwTable.size())]) = argumentData[i];
@@ -280,7 +285,7 @@ public:
             if (ret.size() == 1) return ret[0];
             return Base(ret);
         }
-        else if (functionName.nameData == "print") { 
+        else if (functionName.nameData == "print") {
             for (int i = 0; i < argumentData.size(); ++i) {
                 std::cout << argumentData[i];
                 if (i != argumentData.size() - 1) std::cout << ' ';

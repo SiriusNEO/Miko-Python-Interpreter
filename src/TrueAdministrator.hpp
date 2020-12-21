@@ -20,6 +20,7 @@ class TrueAdministrator {
         std::unordered_map <std::string, Base*> globalVariable;
         std::unordered_map <std::string, Base*> temporaryVariable[maxDepth];
         std::unordered_map <std::string, std::pair<Python3Parser::ParametersContext*, Python3Parser::SuiteContext*> > functionTable;
+        std::unordered_map <Python3Parser::ParametersContext*, std::vector<Base> > defaultArguments;
         //every floor stores all temporary variables in the corresponding function
         std::vector<flowStmtType> flowStmtStack;
         std::vector<std::string> kwTable;
