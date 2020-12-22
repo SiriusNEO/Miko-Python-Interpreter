@@ -174,7 +174,7 @@ Base operator * (const Base& obj1, const Base& obj2) {
                 throw std::invalid_argument("Error, operator * is undefined between float and str");
             else if (obj1.baseType == _str) {
                 std::string ret;
-                int times = obj2.castToInt().intData.castToLL();
+                int times = (int)obj2.castToInt().intData.castToLL();
                 while (times--) ret += obj1.strData;
                 return Base(ret);
             }
@@ -203,7 +203,7 @@ Base floatDiv(const Base& obj1, const Base& obj2) {
     if (obj1.baseType == _null || obj2.baseType == _null) throw std::invalid_argument("Error, something has not been defined");
     if (obj1.baseType == _str || obj2.baseType == _str)
         throw std::invalid_argument("Error, operator / is undefined between these types");
-    float leftFloat = obj1.castToFloat().floatData, rightFloat = obj2.castToFloat().floatData;
+    double leftFloat = obj1.castToFloat().floatData, rightFloat = obj2.castToFloat().floatData;
     if (rightFloat == 0) throw std::invalid_argument("Error, divided by zero");
     return Base(leftFloat / rightFloat);
 }
