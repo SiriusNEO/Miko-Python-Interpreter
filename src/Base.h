@@ -9,6 +9,7 @@
 #include "Bigint.h"
 #include <iomanip>
 #include <memory>
+#include <sstream>
 
 const double eps = (1e-10);
 enum typeT {_null, _bool, _int, _float, _str, _tuple, _none};
@@ -31,7 +32,9 @@ class Base {
         explicit Base(bool obj):baseType(_bool),boolData(obj),intData(),floatData(),strData(),isLeftValue(),nameData(),tupleData() {}
         explicit Base(const char *obj):baseType(_str),strData(obj),boolData(),intData(),floatData(),isLeftValue(),nameData(),tupleData() {}
         explicit Base(const std::string& obj):baseType(_str),strData(obj),boolData(),intData(),floatData(),isLeftValue(),nameData(),tupleData() {}
-        explicit Base(const Bigint& obj):baseType(_int),intData(obj),boolData(),floatData(),strData(),isLeftValue(),nameData(),tupleData() {}
+        explicit Base(const Bigint& obj):baseType(_int),intData(obj),boolData(),floatData(),strData(),isLeftValue(),nameData(),tupleData() {
+            intData.regularize();
+        }
         explicit Base(double obj):baseType(_float),floatData(obj),boolData(),intData(),strData(),isLeftValue(),nameData(),tupleData() {}
         explicit Base(std::vector<Base> obj):baseType(_tuple),boolData(),intData(),floatData(),strData(),isLeftValue(),nameData(){
             for (const auto& i : obj) tupleData.push_back(new Base(i));
@@ -76,18 +79,9 @@ class Base {
 };
 
 inline static std::string doubleToString(double val) {
-    int moveDigit = 0;
-    double tmp = val;
-    std::string str;
-    if (val == 0) return "0.0";
-    if (tmp < 0) tmp = -tmp;
-    while (tmp - int(tmp) >= eps) tmp *= 10, ++moveDigit;
-    while (moveDigit--) str += char(int(tmp)%10+'0'), tmp /= 10;
-    str += '.';
-    while (int(tmp) > 0) str += char(int(tmp)%10+'0'), tmp /= 10;
-    std::reverse(str.begin(), str.end());
-    if (val - int(val) < eps && val - (int(val)) > -eps) str += '0';
-    return (val > 0) ? str : "-" + str;
+    std::stringstream ss;
+    ss << std::fixed << std::setprecision(6) << val;
+    return ss.str();
 }
 inline static double stringToDouble(std::string str) {
     double ret = 0, floatBase = 0.1;
