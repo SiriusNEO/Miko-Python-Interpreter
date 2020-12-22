@@ -116,7 +116,7 @@ Bigint operator / (const Bigint& obj1, const Bigint& obj2) {
     }
     Bigint ret(retStr);
     ret.neg = obj1.neg ^ obj2.neg;
-    if (ret.neg) ret -= Bigint(1);
+    if (ret.neg && obj3 != Bigint(0)) ret -= Bigint(1);
     ret.regularize();
     return ret;
 }
