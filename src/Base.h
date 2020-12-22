@@ -79,6 +79,7 @@ class Base {
 };
 
 static std::string doubleToString(double val) {
+    throw std::invalid_argument("is it here?");
     std::stringstream ss;
     ss << std::fixed << std::setprecision(6) << val;
     return ss.str();
