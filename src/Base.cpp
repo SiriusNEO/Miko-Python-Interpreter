@@ -27,6 +27,7 @@ Base Base::castToInt() const{
             for (auto ch : strData) if (ch < '0' || ch > '9') throw std::invalid_argument("Error, can't cast str to int");
             return Base(Bigint(strData));
         }
+        case _none: return Base(Bigint(0));
         default: throw std::invalid_argument("Error, can't cast to int type");
     }
 }
@@ -40,6 +41,7 @@ Base Base::castToFloat() const{
             for (auto ch : strData) if ((ch < '0' || ch > '9') && ch != '.') throw std::invalid_argument("Error, can't cast str to float");
             return Base(stringToDouble(strData));
         }
+        case _none: return Base(0.0);
         default: throw std::invalid_argument("Error, can't cast to float type");
     }
 }
@@ -82,7 +84,7 @@ bool Base::isTrue() const {
 bool operator == (const Base& obj1, const Base& obj2) {
     if (obj1.baseType == _null || obj2.baseType == _null) throw std::invalid_argument("Error, something has not been defined");
     if (obj1.baseType != obj2.baseType) {
-        if (obj1.baseType == _str || obj2.baseType == _str) return false;
+        if (obj1.baseType == _str || obj2.baseType == _str || obj1.baseType == _none || obj2.baseType == _none) return false;
         switch (obj1.baseType) {
             case _bool:return obj1 == obj2.castToBool();
             case _int:return obj1 == obj2.castToInt();
