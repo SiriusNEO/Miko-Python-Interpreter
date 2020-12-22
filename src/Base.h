@@ -78,12 +78,12 @@ class Base {
         friend std::ostream& operator << (std::ostream& os, Base& obj);
 };
 
-inline static std::string doubleToString(double val) {
+static std::string doubleToString(double val) {
     std::stringstream ss;
     ss << std::fixed << std::setprecision(6) << val;
     return ss.str();
 }
-inline static double stringToDouble(std::string str) {
+static double stringToDouble(std::string str) {
     double ret = 0, floatBase = 0.1;
     int i = 0;
     for (; i < str.size() && str[i] != '.'; ++i) ret = ret * 10 + str[i] - '0';
