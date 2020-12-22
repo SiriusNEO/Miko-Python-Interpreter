@@ -46,8 +46,9 @@ class Base {
         Base castToFloat() const;
         Base castToStr() const;
         Base castToRightValue() const;
+        Base castToMaxType(typeT maxType) const;
 
-        typeT type();
+        typeT type() const {return baseType;}
 
         bool isTrue() const;
 
@@ -79,7 +80,6 @@ class Base {
 };
 
 static std::string doubleToString(double val) {
-    throw std::invalid_argument("is it here?");
     std::stringstream ss;
     ss << std::fixed << std::setprecision(6) << val;
     return ss.str();

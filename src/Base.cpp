@@ -66,8 +66,10 @@ Base Base::castToRightValue() const {
     return ret;
 }
 
-typeT Base::type() {
-    return baseType;
+Base Base::castToMaxType(typeT maxType) const {
+    //not include str
+    if (maxType == _float) return this->castToFloat();
+    return this->castToInt();
 }
 
 bool Base::isTrue() const {
@@ -85,12 +87,8 @@ bool operator == (const Base& obj1, const Base& obj2) {
     if (obj1.baseType == _null || obj2.baseType == _null) throw std::invalid_argument("Error, something has not been defined");
     if (obj1.baseType != obj2.baseType) {
         if (obj1.baseType == _str || obj2.baseType == _str || obj1.baseType == _none || obj2.baseType == _none) return false;
-        switch (obj1.baseType) {
-            case _bool:return obj1 == obj2.castToBool();
-            case _int:return obj1 == obj2.castToInt();
-            case _float:return obj1 == obj2.castToFloat();
-            default: return false;
-        }
+        typeT maxType = std::max(obj1.type(), obj2.type());
+        return obj1.castToMaxType(maxType) == obj2.castToMaxType(maxType);
     }
     switch (obj1.baseType) {
         case _bool:return obj1.boolData == obj2.boolData;
@@ -108,12 +106,8 @@ bool operator > (const Base& obj1, const Base& obj2) {
     if (obj1.baseType != obj2.baseType) {
         if (obj1.baseType == _str || obj2.baseType == _str)
             throw std::invalid_argument("Error, comparison is undefined between non-str type and str type");
-        switch (obj1.baseType) {
-            case _bool:return obj1 > obj2.castToBool();
-            case _int:return obj1 > obj2.castToInt();
-            case _float:return obj1 > obj2.castToFloat();
-            default: return false;
-        }
+        typeT maxType = std::max(obj1.type(), obj2.type());
+        return obj1.castToMaxType(maxType) > obj2.castToMaxType(maxType);
     }
     switch (obj1.baseType) {
         case _bool:return obj1.boolData > obj2.boolData;
@@ -138,9 +132,8 @@ Base operator + (const Base& obj1, const Base& obj2) {
     if (obj1.baseType != obj2.baseType) {
         if (obj1.baseType == _str || obj2.baseType == _str)
             throw std::invalid_argument("Error, operator + is undefined between non-str type and str type");
-        if (obj1.baseType == _float) return obj1 + obj2.castToFloat();
-        if (obj2.baseType == _float) return obj1.castToFloat() + obj2;
-        return obj1.castToInt() + obj2.castToInt();
+        typeT maxType = std::max(obj1.type(), obj2.type());
+        return obj1.castToMaxType(maxType) + obj2.castToMaxType(maxType);
     }
     switch (obj1.baseType) {
         case _bool: return obj1.castToInt() + obj2.castToInt();
@@ -155,9 +148,8 @@ Base operator - (const Base& obj1, const Base& obj2) {
     if (obj1.baseType != obj2.baseType) {
         if (obj1.baseType == _str || obj2.baseType == _str)
             throw std::invalid_argument("Error, operator - is undefined between non-str type and str type");
-        if (obj1.baseType == _float) return obj1 - obj2.castToFloat();
-        if (obj2.baseType == _float) return obj1.castToFloat() - obj2;
-        return obj1.castToInt() - obj2.castToInt();
+        typeT maxType = std::max(obj1.type(), obj2.type());
+        return obj1.castToMaxType(maxType) - obj2.castToMaxType(maxType);
     }
     switch (obj1.baseType) {
         case _bool: return obj1.castToInt() - obj2.castToInt();
@@ -180,9 +172,8 @@ Base operator * (const Base& obj1, const Base& obj2) {
             }
             else if (obj2.baseType == _str) return obj2 * obj1;
         }
-        if (obj1.baseType == _float) return obj1 * obj2.castToFloat();
-        if (obj2.baseType == _float) return obj1.castToFloat() * obj2;
-        return obj1.castToInt() * obj2.castToInt();
+        typeT maxType = std::max(obj1.type(), obj2.type());
+        return obj1.castToMaxType(maxType) * obj2.castToMaxType(maxType);
     }
     switch (obj1.baseType) {
         case _bool: return obj1.castToInt() * obj2.castToInt();
