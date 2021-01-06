@@ -1,0 +1,39 @@
+#Cast Test
+#Bool Int Float Str None
+#Bool
+print(True+True)
+print(False-True)
+print(True/True)
+print(True and not False or not True)
+
+#Bool and Int
+print(True-1234)
+print(True * 233 * (True+True) )
+
+#Bool and Float
+print(True * 2.0)
+
+#Bool and Str
+print(True * 'aa')
+
+#None
+print(None == None)
+print(None != None)
+print(None == 1)
+print(None == True)
+print(None == 1.0)
+print(None == 'aaa')
+
+#Int and Float
+print(12342352134 * 7.2)
+print(6666 / 3.333)
+print(0/3)
+
+#Int and Str
+print('sjtusjtu' * 2, 2 * 'sjtu')
+
+#EX
+print(1 and 1.0)
+print(0.0 and True)
+print(1.0 and True)
+print(True and 'aaa')

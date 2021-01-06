@@ -1,0 +1,17 @@
+#Lots of Functions
+def f(a):
+	if a == 0:
+		print('end')
+		return
+	print('f:', a)
+	a = a - 2
+	g(a)
+	print('f:', a)
+
+def g(a):
+	print('g:', a)
+	a = a + 1
+	f(a)
+	print('g:', a)
+
+f(4)

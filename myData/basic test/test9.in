@@ -1,0 +1,6 @@
+#DoubleToString
+a = -0
+print(a)
+a = -0.0
+print(a)
+print(str(a))

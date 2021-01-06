@@ -1,0 +1,10 @@
+#Recursion Test
+def foo(a, b):
+	if a == 0:
+		print('Final:', b)
+		return
+	print(a)
+	b = b * 2
+	foo(a-1, b)
+
+foo(3, 5)

@@ -123,11 +123,12 @@ flow_stmt: break_stmt | continue_stmt | return_stmt;
 break_stmt: 'break';
 continue_stmt: 'continue';
 return_stmt: 'return' (testlist)?;
-compound_stmt: if_stmt | while_stmt | funcdef ;
+compound_stmt: if_stmt | while_stmt | for_stmt | funcdef ;
 if_stmt: 'if' test ':' suite ('elif' test ':' suite)* ('else' ':' suite)?;
 while_stmt: 'while' test ':' suite;
+for_stmt: 'for' NAME 'in' test ':' suite;
 suite: simple_stmt | NEWLINE INDENT stmt+ DEDENT;
-test: or_test ;
+test: or_test;
 or_test: and_test ('or' and_test)*;
 and_test: not_test ('and' not_test)*;
 not_test: 'not' not_test | comparison;
@@ -138,9 +139,20 @@ addorsub_op: '+'|'-';
 term: factor (muldivmod_op factor)*;
 muldivmod_op: '*'|'/'|'//'|'%';
 factor: ('+'|'-') factor | atom_expr;
-atom_expr: atom trailer?;
+atom_expr: atom ( trailer | (index)+ )?;
+index: '[' (test | slice) ']';
+slice: (startindex)? ':' (endindex)? (':'(step)?)?;
+startindex: test;
+endindex: test;
+step: test;
 trailer: '(' (arglist)? ')' ;
-atom: (NAME | NUMBER | STRING+| 'None' | 'True' | 'False' | ('(' test ')'));
+atom: (NAME | NUMBER | STRING+| 'None' | 'True' | 'False' | ('(' test ')')) | tuple | list | comprehension;
+tuple: ('(' ')') | ('(' test ',' (testlist)? ')'); //空tuple
+list: '[' (testlist)? ']';
+comprehension: '[' test (lc_expr)+ ']';
+lc_expr: for_expr (if_expr)?;
+for_expr: 'for' NAME 'in' test;
+if_expr: 'if' test;
 testlist: test (',' test)* (',')?;//算式  eg： a,b   a   a+b
 arglist: argument (',' argument)*  (',')?;
 argument: ( test |

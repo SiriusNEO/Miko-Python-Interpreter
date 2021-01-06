@@ -1,0 +1,22 @@
+#Vandermonde
+def pow(x, y) :
+	ret = 1
+	while y != 0 :
+		if y % 2 == 1 :
+			ret *= x
+		x *= x
+		y //= 2
+	return ret
+
+def trans(mat):
+	for i in range(len(mat)):
+		for j in range(i+1,len(mat[i])):
+			tmp = mat[i][j]
+			mat[i][j] = mat[j][i]
+			mat[j][i] = tmp
+	return mat
+
+matrix = [ [pow(yy,xx) for xx in range(4)] for yy in range(2,10,2) ]
+
+for i in trans(matrix):
+	print(i)

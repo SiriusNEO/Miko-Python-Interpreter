@@ -1,0 +1,16 @@
+#HACK
+p = 1
+def f2():
+	p *= 2
+	return p
+
+def f(x = f2()):
+	p += 1
+	return p
+
+def func(x = f(), y = f2()):
+	print(p)
+	x += 1
+	return x + y
+
+print(func(f2()))

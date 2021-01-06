@@ -1,4 +1,4 @@
-// Generated from Python3.g4 by ANTLR 4.7.2
+// Generated from C:/Users/17138/Desktop/Sirius/Programming/PythonInterpreter/generated\Python3.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -177,6 +177,16 @@ public interface Python3Listener extends ParseTreeListener {
 	 */
 	void exitWhile_stmt(Python3Parser.While_stmtContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link Python3Parser#for_stmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterFor_stmt(Python3Parser.For_stmtContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Python3Parser#for_stmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitFor_stmt(Python3Parser.For_stmtContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link Python3Parser#suite}.
 	 * @param ctx the parse tree
 	 */
@@ -307,6 +317,56 @@ public interface Python3Listener extends ParseTreeListener {
 	 */
 	void exitAtom_expr(Python3Parser.Atom_exprContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link Python3Parser#index}.
+	 * @param ctx the parse tree
+	 */
+	void enterIndex(Python3Parser.IndexContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Python3Parser#index}.
+	 * @param ctx the parse tree
+	 */
+	void exitIndex(Python3Parser.IndexContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Python3Parser#slice}.
+	 * @param ctx the parse tree
+	 */
+	void enterSlice(Python3Parser.SliceContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Python3Parser#slice}.
+	 * @param ctx the parse tree
+	 */
+	void exitSlice(Python3Parser.SliceContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Python3Parser#startindex}.
+	 * @param ctx the parse tree
+	 */
+	void enterStartindex(Python3Parser.StartindexContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Python3Parser#startindex}.
+	 * @param ctx the parse tree
+	 */
+	void exitStartindex(Python3Parser.StartindexContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Python3Parser#endindex}.
+	 * @param ctx the parse tree
+	 */
+	void enterEndindex(Python3Parser.EndindexContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Python3Parser#endindex}.
+	 * @param ctx the parse tree
+	 */
+	void exitEndindex(Python3Parser.EndindexContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Python3Parser#step}.
+	 * @param ctx the parse tree
+	 */
+	void enterStep(Python3Parser.StepContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Python3Parser#step}.
+	 * @param ctx the parse tree
+	 */
+	void exitStep(Python3Parser.StepContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link Python3Parser#trailer}.
 	 * @param ctx the parse tree
 	 */
@@ -326,6 +386,66 @@ public interface Python3Listener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAtom(Python3Parser.AtomContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Python3Parser#tuple}.
+	 * @param ctx the parse tree
+	 */
+	void enterTuple(Python3Parser.TupleContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Python3Parser#tuple}.
+	 * @param ctx the parse tree
+	 */
+	void exitTuple(Python3Parser.TupleContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Python3Parser#list}.
+	 * @param ctx the parse tree
+	 */
+	void enterList(Python3Parser.ListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Python3Parser#list}.
+	 * @param ctx the parse tree
+	 */
+	void exitList(Python3Parser.ListContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Python3Parser#comprehension}.
+	 * @param ctx the parse tree
+	 */
+	void enterComprehension(Python3Parser.ComprehensionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Python3Parser#comprehension}.
+	 * @param ctx the parse tree
+	 */
+	void exitComprehension(Python3Parser.ComprehensionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Python3Parser#lc_expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterLc_expr(Python3Parser.Lc_exprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Python3Parser#lc_expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitLc_expr(Python3Parser.Lc_exprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Python3Parser#for_expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterFor_expr(Python3Parser.For_exprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Python3Parser#for_expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitFor_expr(Python3Parser.For_exprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Python3Parser#if_expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterIf_expr(Python3Parser.If_exprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Python3Parser#if_expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitIf_expr(Python3Parser.If_exprContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link Python3Parser#testlist}.
 	 * @param ctx the parse tree

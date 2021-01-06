@@ -1,0 +1,6 @@
+#Tuple
+def f(a,b,c):
+	return c,b,a
+
+x,y,z = f(1,2,3)
+print(x, y, z)

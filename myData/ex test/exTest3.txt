@@ -1,0 +1,14 @@
+#Yanghui Triangle
+
+C = [ [ '.' for j in range(20) ] for i in range(20) ]
+
+for i in range(20):
+	C[i][0] = C[0][i] = C[i][i] = 1
+
+
+for i in range(1,20):
+	for j in range(1,i):
+		C[i][j] = C[i-1][j] + C[i-1][j-1]
+
+for i in range(20):
+	print(C[i][:(i+1)])
