@@ -165,7 +165,7 @@ static std::string typeToString(typeT _type, bool isImmutable = 0) {
         case _int: return "int";
         case _float: return "float";
         case _none: return "none";
-        case _str: return "string";
+        case _str: return "str";
         case _list: {
             return (isImmutable) ? "tuple" : "list";
         }
@@ -196,6 +196,7 @@ static void invalidReport(int type, std::string reportName = "", std::string rep
         case 14:std::cout << "\033[31m[TypeError]: \033[0m" << "type: " <<  rpn << " is not subscriptable" << '\n';break;
         case 15:std::cout << "\033[31m[OperatorError]: \033[0m" << rpn << " not supported in type：" << rpn1 << '\n';break;
         case 16:std::cout << "\033[31m[AssignmentError]: \033[0m" << "type：" << rpn << " is immutable" << '\n';break;
+        case 17:std::cout << "\033[31m[ArgumentError]: \033[0m" << "an unexpected keyword argument name: " << rpn << '\n';break;
     }
     throw std::invalid_argument("Compile Error");
 }

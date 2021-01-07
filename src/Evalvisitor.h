@@ -517,7 +517,11 @@ public:
                     invalidReport(4, functionName.nameData);
                 for (int i = 0; i < argumentData.size(); ++i) {
                     if (i < argumentData.size() - miko.kwTable.size()) *miko.getVariable(argumentName[i]) = argumentData[i];
-                    else *miko.getVariable(miko.kwTable[i-(argumentData.size()-miko.kwTable.size())]) = argumentData[i];
+                    else {
+                        if (!miko.getVariable(miko.kwTable[i-(argumentData.size()-miko.kwTable.size())]))
+                            invalidReport(17, miko.kwTable[i-(argumentData.size()-miko.kwTable.size())]);
+                        *miko.getVariable(miko.kwTable[i-(argumentData.size()-miko.kwTable.size())]) = argumentData[i];
+                    }
                 }
             }
             visitSuite(func.second);
