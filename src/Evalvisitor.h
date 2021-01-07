@@ -60,10 +60,10 @@ public:
         if (ctx->augassign()) {
             std::string tmpOp = ctx->augassign()->getText();
             auto testlistArray = ctx->testlist();
-            miko.passByRefence = true;
+            miko.passByReference = true;
             miko.trace.clear();
             auto left_testArray = visitTestlist(testlistArray[0]).as<Base>().getList();
-            miko.passByRefence = false;
+            miko.passByReference = false;
             auto right_testArray = visitTestlist(testlistArray[1]).as<Base>().getList();
             if (left_testArray.size() != 1 || right_testArray.size() != 1) invalidReport(8);
             if (!left_testArray[0].isLeftValue) invalidReport(9, testlistArray[0]->getText());
@@ -150,10 +150,10 @@ public:
                 return 0;
             }
             for (int i = testlistArray.size()-1; i > 0; --i) {
-                miko.passByRefence = true;
+                miko.passByReference = true;
                 miko.trace.clear();
                 auto left_testArray = visitTestlist(testlistArray[i-1]).as<Base>().getList();
-                miko.passByRefence = false;
+                miko.passByReference = false;
                 auto right_testArray = visitTestlist(testlistArray[i]).as<Base>().getList();
                 if (left_testArray.size() != right_testArray.size()) invalidReport(11);
                 for (int j = 0; j < left_testArray.size(); ++j) {
@@ -353,12 +353,12 @@ public:
         if (!indexArray.empty()) {
             Base ret = visitAtom(ctx->atom()).as<Base>();
             if (ret.type() == _list) {
-                if (miko.passByRefence) {
+                if (miko.passByReference) {
                     for (int i = 0; i < indexArray.size(); ++i) {
                         int ll = ret.startIndex, rr = ret.endIndex;
                         if (ll == rr)  {
                             ret.passPtr(*ret.listData[ll]); //single
-                            if (miko.passByRefence) miko.trace.push_back(ll);
+                            if (miko.passByReference) miko.trace.push_back(ll);
                         }
                         if (indexArray[i]->slice()) {
                             if (indexArray[i]->slice()->step())
@@ -430,7 +430,7 @@ public:
                 }
             }
             else if (ret.type() == _str) {
-                if (miko.passByRefence) {
+                if (miko.passByReference) {
                     for (int i = 0; i < indexArray.size(); ++i) {
                         int ll = ret.startIndex, rr = ret.endIndex;
                         if (indexArray[i]->slice()) {
@@ -653,9 +653,12 @@ public:
             return Base(ret, true);
         }
         else if (ctx->list()) {
-            Base ret = visitTestlist(ctx->list()->testlist()).as<Base>();
-            ret.isImmutable = false;
-            return ret;
+            std::vector<Base> ret;
+            if (ctx->list()->testlist()) {
+                Base tmp = visitTestlist(ctx->list()->testlist()).as<Base>();
+                for (auto i : tmp.listData) ret.push_back(*i);
+            }
+            return Base(ret, false);
         }
         else if (ctx->comprehension()) {
             miko.LCdepth++;
@@ -663,6 +666,9 @@ public:
             miko.LCStack[miko.LCdepth] = ctx->comprehension()->lc_expr();
             miko.LCoutExpr[miko.LCdepth] = ctx->comprehension()->test();
             enterLCexpr(0);
+            for (auto i : miko.LCStack[miko.LCdepth]) {
+                delete miko.LCVariable[i->for_expr()->NAME()->getText()], miko.LCVariable[i->for_expr()->NAME()->getText()] = nullptr;
+            }
             return Base(miko.LCreturnTmp[miko.LCdepth--], false);
         }
         else if (ctx->NUMBER()) {

@@ -29,7 +29,7 @@ class TrueAdministrator {
         std::vector<std::string> kwTable;
         int depth;
         std::vector<Base> returnTmp;
-        bool passByRefence;
+        bool passByReference;
 
         //for lc
         int LCdepth;
@@ -41,11 +41,9 @@ class TrueAdministrator {
         //for multi loop & slice
         std::vector<int> trace;
 
-        TrueAdministrator():depth(0),LCdepth(0),passByRefence(false) {}
+        TrueAdministrator():depth(0),LCdepth(0),passByReference(false) {}
         ~TrueAdministrator() {
             for (auto it = globalVariable.begin(); it != globalVariable.end(); ++it)
-                if (it->second) delete it->second, it->second = nullptr;
-            for (auto it = LCVariable.begin(); it != LCVariable.end(); ++it)
                 if (it->second) delete it->second, it->second = nullptr;
         }
         void newVariable(const std::string& name, const Base& data) {

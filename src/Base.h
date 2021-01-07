@@ -41,8 +41,9 @@ class Base {
         }
         explicit Base(double obj):baseType(_float),floatData(obj),boolData(),intData(),strData(),isLeftValue(),nameData(),listData() {}
         explicit Base(std::vector<Base> obj, bool _isImmutable):baseType(_list),boolData(),intData(),floatData(),strData(),isLeftValue(),nameData(),isImmutable(_isImmutable){
-            startIndex = 0, endIndex = obj.size(), step = 0;
+            startIndex = 0, endIndex = 0, step = 0;
             if (!obj.empty()) {
+                endIndex = obj.size();
                 for (const auto& i : obj) listData.push_back(new Base(i));
             }
         }

@@ -14,7 +14,7 @@ Base Base::castToBool() const{
         case _float: return Base(bool(floatData));
         case _str: return Base(!strData.empty());
         case _none: return Base(false);
-        case _list: return Base(endIndex==0);
+        case _list: return Base(size()==0);
         default: invalidReport(1, nameData); //must be undefined.
     }
 }
@@ -107,6 +107,7 @@ bool Base::isTrue() const {
         case _float:return floatData != 0;
         case _str:return !strData.empty();
         case _none: return false;
+        case _list: return size()==0;
         default: invalidReport(1, nameData);
     }
 }
